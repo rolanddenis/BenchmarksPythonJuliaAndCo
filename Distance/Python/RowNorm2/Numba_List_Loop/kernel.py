@@ -1,15 +1,15 @@
-import numpy as np
 import math
-from numba import njit, prange
+from numba import jit
 
-@njit(parallel=True)
+@jit()
 def kernel_run(array, alpha, result):
-    for i in prange(array.shape[0]):
+    for i in range(len(array)):
         sqr_norm = 0.
-        for d in range(array.shape[1]):
-            sqr_norm += array[i, d]**2 * alpha[d]
+        for d in range(len(alpha)):
+            sqr_norm += array[i][d]**2 * alpha[d]
 
         result[i] = math.sqrt(sqr_norm)
+
 
 class Kernel:
 
@@ -19,9 +19,9 @@ class Kernel:
 
     # Data initialization
     def init (this, p1, p2, p3):
-        this.alpha = p1 ** np.arange(this.dimension)
-        this.array = np.arange(this.nrow)[:,np.newaxis] + p2 * np.arange(this.dimension)[np.newaxis,:]
-        this.result = np.empty([this.nrow])
+        this.alpha = [ p1 ** d for d in range(this.dimension) ]
+        this.array = [ [ i + p2*d for d in range(this.dimension) ] for i in range(this.nrow) ]
+        this.result = [0.] * this.nrow
 
     # Kernel
     def run(this):
@@ -29,4 +29,4 @@ class Kernel:
 
     # Checksum
     def checksum(this):
-        return np.sum(this.result)
+        return sum(this.result)
