@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     # Runs
     nrun = 0
-    is_warming = False
+    is_warming = True
     total_duration = 0.
     tic = time.time()
 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
         total_duration = time.time() - tic
 
         # Managing warming and run time
-        if is_warming and duration >= args.warming_time:
+        if is_warming and total_duration >= args.warming_time:
             is_warming = False
             tic = time.time()
         elif not is_warming:

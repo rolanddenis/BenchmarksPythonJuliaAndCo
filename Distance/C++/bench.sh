@@ -27,4 +27,4 @@ $CXX $CXXFLAGS -I. -DPROBLEM=$1 -DKERNEL=$2 main.cpp -o bench_cpp $LDDFLAGS
 /usr/bin/time -v ./bench_cpp $3 $4 $5 >timing.tmp 2>memory.tmp
 echo C++ $1 $2 $3 $4 $5 $(grep "Maximum resident set size" memory.tmp | grep -o "[0-9]*") $(cat timing.tmp)
 
-#rm bench_cpp timing.tmp memory.tmp
+rm bench_cpp timing.tmp memory.tmp
